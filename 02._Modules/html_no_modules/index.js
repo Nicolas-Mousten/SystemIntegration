@@ -1,1 +1,1 @@
-const class = new myModule.ClassA();
+const classA = new myModule.ClassA();

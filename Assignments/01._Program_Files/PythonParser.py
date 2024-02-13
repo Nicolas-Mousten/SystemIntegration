@@ -19,6 +19,20 @@ education_areas = [area.text for area in root.findall("./Education/Area")]
 with open("../01._Data_Files/me.yaml", "r") as file:
     me_data = yaml.safe_load(file)
 
+
+with open("../01._Data_Files/me.txt", "r") as file:
+    data = {}
+    for line in file:
+        line = line.strip()
+        key, value = line.split(":")
+        if key in data:
+            if isinstance(data[key], list):
+                data[key].append(value)
+            else:
+                data[key] = [data[key], value]
+        else:
+            data[key] = value
+print(data)
 print("Data from me.csv: \n", CSV_Data)
 
 print("Data from me.json: \n",Json_Data)
