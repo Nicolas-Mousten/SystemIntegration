@@ -3,48 +3,57 @@ import json
 import xml.etree.ElementTree as ET
 import yaml
 
-CSV_Data = pd.read_csv("../01._Data_Files/me.csv")
-
-Json_File = open("../01._Data_Files/me.json") 
-Json_Data = json.load(Json_File)
-
-tree = ET.parse("../01._Data_Files/me.xml")
-root = tree.getroot()
-
-first_name = root.find("FirstName").text
-last_name = root.find("LastName").text
-age = int(root.find("age").text)
-education_areas = [area.text for area in root.findall("./Education/Area")]
-
-with open("../01._Data_Files/me.yaml", "r") as file:
-    me_data = yaml.safe_load(file)
-
-
-with open("../01._Data_Files/me.txt", "r") as file:
+def parse_text(file_path):
     data = {}
-    for line in file:
-        line = line.strip()
-        key, value = line.split(":")
-        if key in data:
-            if isinstance(data[key], list):
-                data[key].append(value)
+    with open(file_path, "r") as file:
+        for line in file:
+            line = line.strip()
+            key, value = line.split(":")
+            if key in data:
+                if isinstance(data[key], list):
+                    data[key].append(value)
+                else:
+                    data[key] = [data[key], value]
             else:
-                data[key] = [data[key], value]
-        else:
-            data[key] = value
-print(data)
-print("Data from me.csv: \n", CSV_Data)
+                data[key] = value
+    return data
 
-print("Data from me.json: \n",Json_Data)
+def read_csv(file_path):
+    data = pd.read_csv(file_path)
+    return data.to_json(orient='columns')
 
-print("Data from me.xml:")
-print("First Name:", first_name)
-print("Last Name:", last_name)
-print("Age:", age)
-print("Education Areas:", education_areas)
+def read_json(file_path):
+    with open(file_path) as Json_File:
+        return json.load(Json_File)
 
-print("Data from me.yaml:")
-print("First Name:", me_data["FirstName"])
-print("Last Name:", me_data["LastName"])
-print("Age:", me_data["Age"])
-print("Education:", me_data["Education"])
+def parse_xml(file_path):
+    tree = ET.parse(file_path)
+    root = tree.getroot()
+    first_name = root.find("FirstName").text
+    last_name = root.find("LastName").text
+    age = int(root.find("age").text)
+    education_areas = [area.text for area in root.findall("./Education/Area")]
+    return {"FirstName":first_name, "LastName":last_name, "Age":age, "Education":education_areas}
+
+def read_yaml(file_path):
+    with open(file_path, "r") as file:
+        return yaml.safe_load(file)
+
+# # Read data
+# CSV_Data = read_csv("../01._Data_Files/me.csv")
+# Json_Data = read_json("../01._Data_Files/me.json")
+# Xml_Data = parse_xml("../01._Data_Files/me.xml")
+# me_data = read_yaml("../01._Data_Files/me.yaml")
+# text_data = parse_text("../01._Data_Files/me.txt")
+
+# # Display data
+# print("Data from me.txt: \n", text_data)
+# print("Data from me.csv: \n", CSV_Data)
+# print("Data from me.json: \n", Json_Data)
+# print("Data from me.xml: \n", Xml_Data)
+# print("Data from me.yaml: \n", me_data)
+
+
+
+
+

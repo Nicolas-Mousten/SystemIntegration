@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "environment"
+version = "0.1.0"
+description = ""
+authors = ["Nicolas-Mousten <nicolas.mousten@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+python-dotenv = "^1.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "parserserver"
+version = "0.1.0"
+description = "Parse files to python and connect to node server"
+authors = ["Nicolas-Mousten <nicolas.mousten@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.109.2"
+uvicorn = "^0.27.1"
+requests = "^2.31.0"
+pandas = "^2.2.0"
+pyyaml = "^6.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

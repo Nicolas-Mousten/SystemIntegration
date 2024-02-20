@@ -1,0 +1,10 @@
+<me>
+    <FirstName>Nicolas</FirstName>
+    <LastName>Mousten</LastName>
+    <age>23</age>
+    <Education>
+        <Area>Computer Scientist</Area>
+        <Area>Software Developer</Area>
+    </Education>
+</me>
+
