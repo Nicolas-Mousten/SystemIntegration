@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1 id="A"></h1>
+    </div>
+
+    <script>
+        // Fetch the date from the server
+        fetch('https://efb5-195-249-146-101.ngrok-free.app/date')
+            .then(response => response.text())
+            .then(date => {
+                console.log(date)
+                // Update the content of element with id "A" with the received date
+                document.getElementById("A").innerHTML = date;
+            })
+    </script>
+</body>
+</html>

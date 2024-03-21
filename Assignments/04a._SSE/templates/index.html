@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SSE Example</title>
+    </head>
+    <body>
+        <h1>SSE Example</h1>
+    
+        <p>Status:</p>
+        <div id="server-sent-status"></div>
+    
+        <p>Time:</p>
+        <div id="server-sent-time"></div>
+    
+        <script>
+            const statusDiv = document.getElementById("server-sent-status");
+            const timeDiv = document.getElementById("server-sent-time");
+    
+            const eventSource = new EventSource("/stream");
+    
+            eventSource.onmessage = function(event) {
+                console.log(event);
+                timeDiv.textContent = event.data;
+            };
+    
+            eventSource.onopen = function(event) {
+                statusDiv.textContent = "Connected";
+            };
+    
+            eventSource.onerror = function(event) {
+                if (event.target.readyState === EventSource.CLOSED) {
+                    statusDiv.textContent = 'Connection was closed';
+                } else if (event.target.readyState === EventSource.CONNECTING) {
+                    statusDiv.textContent = 'Connecting...';
+                } else {
+                    statusDiv.textContent = 'Error';
+                }
+            };
+        </script>
+    </body>
+    </html>

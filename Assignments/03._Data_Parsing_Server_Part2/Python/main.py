@@ -1,8 +1,6 @@
 from fastapi import FastAPI;
 import requests
 import sys
-import os
-
 sys.path.append(r'C:\Users\udh12\Desktop\SystemIntegration\Assignments\01._Program_Files')
 import PythonParser
 

@@ -1,0 +1,61 @@
+using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+
+class TCPServer
+{
+    public static void Main()
+    {
+        StartServer();
+    }
+
+    public static void StartServer()
+    {
+        // Set the IP address and port number for the server
+        string ipAddress = "127.0.0.1"; // Loopback address for local testing
+        int port = 8888;
+
+        // Create a TCP listener
+        TcpListener listener = new TcpListener(IPAddress.Parse(ipAddress), port);
+
+        try
+        {
+            // Start listening for incoming connection requests
+            listener.Start();
+            Console.WriteLine("Server started. Waiting for connections...");
+
+            while (true)
+            {
+                // Accept the client connection
+                TcpClient client = listener.AcceptTcpClient();
+                Console.WriteLine("Client connected.");
+
+                // Get the network stream from the client
+                NetworkStream stream = client.GetStream();
+
+                // Get the current date as a string
+                string currentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                // Convert the date string to bytes
+                byte[] responseData = Encoding.ASCII.GetBytes(currentDate);
+
+                // Send the current date to the client
+                stream.Write(responseData, 0, responseData.Length);
+
+                // Close the client connection
+                client.Close();
+                Console.WriteLine("Client disconnected.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+        finally
+        {
+            // Stop listening for new clients
+            listener.Stop();
+        }
+    }
+}
