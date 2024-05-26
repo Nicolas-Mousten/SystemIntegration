@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "04-python-ariadne"
+version = "0.1.0"
+description = ""
+authors = ["Nicolas-Mousten <nicolas.mousten@gmail.com>"]
+readme = "README.md"
+packages = [{include = "04"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+uvicorn = "^0.29.0"
+fastapi = "^0.111.0"
+ariadne = "^0.23.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

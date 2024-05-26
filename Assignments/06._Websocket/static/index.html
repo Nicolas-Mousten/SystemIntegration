@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chat</title>
+</head>
+
+<body>
+    <h1>WebSocket Chat</h1>
+    <div style="display: flex; align-items: center;">
+        <h2>Your Name: <input id="ws-id" placeholder="Type your prefered username"></input></h2>
+        <button onclick="chatroom_join()">Connect</button>
+    </div>
+
+    <form action="" onsubmit="sendMessage(event)">
+        <input type="text" id="messageText" autocomplete="off" />
+        <button>Send</button>
+    </form>
+
+    <ul id='messages'> </ul>
+
+    <script>
+        var ws;
+
+        function chatroom_join() {
+            var user_name = document.getElementById("ws-id").value;
+            console.log(user_name)
+            ws = new WebSocket(`ws://127.0.0.1:8000/ws/${user_name}`);
+
+            ws.onopen = function (event) {
+                console.log("Connected to WebSocket server");
+            };
+
+            ws.onmessage = function (event) {
+                var messages = document.getElementById('messages')
+                var message = document.createElement('li')
+                var content = document.createTextNode(event.data)
+                message.appendChild(content)
+                messages.appendChild(message)
+            };
+        }
+
+
+
+
+        function sendMessage(event) {
+            if (ws.readyState === WebSocket.OPEN) {
+                var input = document.getElementById("messageText");
+                ws.send(input.value);
+                input.value = '';
+                event.preventDefault();
+            } else {
+                console.error("WebSocket connection not open.");
+            }
+        }
+    </script>
+</body>
+
+</html>

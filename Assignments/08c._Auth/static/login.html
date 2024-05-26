@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <div id="main">
+        <h1>Login</h1>
+        <form id="myForm">
+            <label for="username">name</label>
+            <input type="text" name="username" placeholder="Name">
+
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Password">
+
+            <input type="submit" value="Send Form Data">
+        </form>
+    </div>
+</body>
+<script>
+    var access_token;
+    document.getElementById('myForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var formData = new FormData(event.target);
+
+        fetch('http://127.0.0.1:8000/token', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                access_token = "Bearer " + data.access_token
+                console.log('Success, redirecting to secret page');
+                showSecretPage()
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    });
+
+    function showSecretPage() {
+        console.log(access_token);
+        fetch("http://127.0.0.1:8000/secret", {
+            method: "GET",
+            headers: {
+                "Authorization": `${access_token}`
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.text(); // Make sure to return the response text
+            })
+            .then(htmlContent => {
+                // Correctly set the innerHTML of the element with id 'main'
+                document.getElementById("main").innerHTML = htmlContent;
+            })
+            .catch(error => {
+                console.error("There was a problem with the fetch operation:", error);
+            });
+    }
+</script>
+
+</html>
